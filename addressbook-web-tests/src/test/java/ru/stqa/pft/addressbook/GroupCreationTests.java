@@ -14,24 +14,46 @@ import java.io.File;
 public class GroupCreationTests {
   private WebDriver wd;
 
-  @BeforeMethod(alwaysRun = true)
+  @BeforeMethod
   public void setUp() throws Exception {
-    System.setProperty("webdriver.chrome.driver", "C:/Chromedriver/chromedriver.exe");
     wd = new ChromeDriver();
-    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+    wd.get("http://localhost/addressbook/");
+    login();
   }
 
-  @Test
-  public void testGroupCreation() throws Exception {
-    wd.get("http://localhost/addressbook/");
+  private void login() {
     wd.findElement(By.name("user")).clear();
     wd.findElement(By.name("user")).sendKeys("admin");
     wd.findElement(By.name("pass")).click();
     wd.findElement(By.name("pass")).clear();
     wd.findElement(By.name("pass")).sendKeys("secret");
     wd.findElement(By.xpath("//input[@value='Login']")).click();
+  }
+
+  @Test
+  public void testGroupCreation() {
+    goToGroupPage();
+    initGroupCreation();
+    fillGroupForm();
+    submitGroupCreation();
+    returnToGroupPage();
+
+  }
+
+  private void logout() {
+    wd.findElement(By.linkText("Logout")).click();
+  }
+
+  private void returnToGroupPage() {
     wd.findElement(By.linkText("groups")).click();
-    wd.findElement(By.name("new")).click();
+  }
+
+  private void submitGroupCreation() {
+    wd.findElement(By.name("submit")).click();
+  }
+
+  private void fillGroupForm() {
     wd.findElement(By.name("group_name")).click();
     wd.findElement(By.name("group_name")).clear();
     wd.findElement(By.name("group_name")).sendKeys("test1");
@@ -41,13 +63,19 @@ public class GroupCreationTests {
     wd.findElement(By.name("group_footer")).click();
     wd.findElement(By.name("group_footer")).clear();
     wd.findElement(By.name("group_footer")).sendKeys("test3");
-    wd.findElement(By.name("submit")).click();
-    wd.findElement(By.linkText("groups")).click();
-    wd.findElement(By.linkText("Logout")).click();
   }
 
-  @AfterMethod(alwaysRun = true)
-  public void tearDown() throws Exception {
+  private void initGroupCreation() {
+    wd.findElement(By.name("new")).click();
+  }
+
+  private void goToGroupPage() {
+    returnToGroupPage();
+  }
+
+  @AfterMethod
+  public void tearDown() {
+    logout();
     wd.quit();
   }
 
