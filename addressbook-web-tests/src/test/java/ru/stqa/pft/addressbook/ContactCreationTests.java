@@ -8,8 +8,6 @@ import java.time.Duration;
 
 public class ContactCreationTests {
   private WebDriver wd;
-  private boolean acceptNextAlert = true;
-
   @BeforeMethod
   public void setUp() throws Exception {
     wd = new ChromeDriver();
@@ -95,18 +93,4 @@ public class ContactCreationTests {
     }
   }
 
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = wd.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
-    }
-  }
 }
