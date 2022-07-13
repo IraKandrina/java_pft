@@ -1,11 +1,12 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
+
 
 public class ContactHelper extends BaseHelper {
 
@@ -25,7 +26,12 @@ public class ContactHelper extends BaseHelper {
         type(By.name("email"), contactData.getEmail());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            try {
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            } catch (NoSuchElementException e) {
+                new Select(wd.findElement(By.name("new_group"))).selectByIndex(0);
+            }
+
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -49,11 +55,6 @@ public class ContactHelper extends BaseHelper {
 
     public void deleteSelectedContact() {
         wd.switchTo().alert().accept();
-    }
-
-    public void createContact(ContactData contact, boolean creation) {
-        fillContactForm(contact,creation);
-        submitContactCreation();
     }
 
     public boolean IsThereAContact() {
