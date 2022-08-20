@@ -1,14 +1,9 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,8 +18,12 @@ public class ContactModificationTests extends TestBase {
                     .withFirstName("Ivan")
                     .withLastName("Ivanov")
                     .withAddress("St.Petersburg, Palace Square, 1")
-                    .withTelephone("+7(111)111-11-11")
+                    .withHomePhone("+7 495 312-15-77")
+                    .withMobilePhone("+7(111)111-11-11")
+                    .withWorkPhone("123-45-67")
                     .withEmail("ivanov_ivan@mail.ru")
+                    .withEmail2("ivanov_ivan@list.ru")
+                    .withEmail3("ivanov_ivan@gmail.com")
                     .withGroup("test1");
             app.contact().create(contact);
         }
@@ -39,10 +38,15 @@ public class ContactModificationTests extends TestBase {
                 .withFirstName("Petr")
                 .withLastName("Petrov")
                 .withAddress("St.Petersburg, Palace Square, 2")
-                .withTelephone("+7(222)222-22-22")
-                .withEmail("petr_petrov@mail.ru");
+                .withHomePhone("+7 495 312-15-77")
+                .withMobilePhone("+7(222)222-22-22")
+                .withWorkPhone("123-45-67")
+                .withEmail("petr_petrov@mail.ru")
+                .withEmail2("petr_petrov@list.ru")
+                .withEmail3("petr_petrov@gmail.com");
         app.contact().modify(contact);
         app.goTo().returnToHomePage();
+        assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.contact().all();
         assertEquals(after.size(), before.size());
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
