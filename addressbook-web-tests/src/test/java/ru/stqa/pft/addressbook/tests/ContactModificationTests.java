@@ -5,6 +5,8 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -14,9 +16,11 @@ public class ContactModificationTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
         if (app.contact().all().size() == 0) {
+            File photo = new File("src/test/resources/photo.jpg");
             ContactData contact = new ContactData()
                     .withFirstName("Ivan")
                     .withLastName("Ivanov")
+                    .withPhoto(photo)
                     .withAddress("St.Petersburg, Palace Square, 1")
                     .withHomePhone("+7 495 312-15-77")
                     .withMobilePhone("+7(111)111-11-11")
@@ -33,10 +37,12 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification() {
         Contacts before = app.contact().all();
         ContactData modifiedContact = before.iterator().next();
+        File photo = new File("src/test/resources/photo.jpg");
         ContactData contact = new ContactData()
                 .withId(modifiedContact.getId())
                 .withFirstName("Petr")
                 .withLastName("Petrov")
+                .withPhoto(photo)
                 .withAddress("St.Petersburg, Palace Square, 2")
                 .withHomePhone("+7 495 312-15-77")
                 .withMobilePhone("+7(222)222-22-22")
