@@ -2,6 +2,7 @@
   <contact>
     <firstName>Ivan 0</firstName>
     <lastName>Ivanov 0</lastName>
+	<photo>src/test/resources/photo.jpg</photo>
     <address>St.Petersburg, Palace Square, 1 0</address>
     <email>ivanov_ivan@mail.ru 0</email>
     <email2>ivanov_ivan@list.ru 0</email2>
@@ -14,6 +15,7 @@
   <contact>
     <firstName>Ivan 1</firstName>
     <lastName>Ivanov 1</lastName>
+	<photo>src/test/resources/photo.jpg</photo>
     <address>St.Petersburg, Palace Square, 1 1</address>
     <email>ivanov_ivan@mail.ru 1</email>
     <email2>ivanov_ivan@list.ru 1</email2>
@@ -26,6 +28,7 @@
   <contact>
     <firstName>Ivan 2</firstName>
     <lastName>Ivanov 2</lastName>
+	<photo>src/test/resources/photo.jpg</photo>
     <address>St.Petersburg, Palace Square, 1 2</address>
     <email>ivanov_ivan@mail.ru 2</email>
     <email2>ivanov_ivan@list.ru 2</email2>

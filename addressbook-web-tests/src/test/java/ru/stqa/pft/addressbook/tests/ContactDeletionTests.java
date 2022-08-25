@@ -14,7 +14,7 @@ import static org.testng.Assert.assertEquals;
 public class ContactDeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions(){
-        if (app.contact().all().size() == 0) {
+        if (app.db().contacts().size() == 0) {
             File photo = new File("src/test/resources/photo.jpg");
             ContactData contact = new ContactData()
                     .withFirstName("Ivan")
@@ -34,12 +34,12 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public void testContactDeletion() {
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
         app.contact().delete(deletedContact);
         app.goTo().goToHomePage();
         assertThat(app.contact().count(), equalTo(before.size() - 1));
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertEquals(after.size(), before.size() - 1);
         assertThat(after, equalTo(before.without(deletedContact)));
     }
