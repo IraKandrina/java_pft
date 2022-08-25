@@ -5,10 +5,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @XStreamAlias("group")
 @Entity
@@ -18,6 +17,10 @@ public class GroupData {
     @Id
     @Column(name = "group_id")
     private int id = Integer.MAX_VALUE;
+    @Column(name ="domain_id")
+    private int domainId;
+    @Column(name ="group_parent_id")
+    private Integer groupParentId;
     @Expose
     @Column(name = "group_name")
     private String name;
@@ -29,6 +32,13 @@ public class GroupData {
     @Column(name = "group_footer")
     @Type(type = "text")
     private String footer;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created")
+    private java.util.Date created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modified")
+    private java.util.Date modified;
 
     public GroupData withId(int id) {
         this.id = id;
@@ -67,6 +77,37 @@ public class GroupData {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GroupData groupData = (GroupData) o;
+
+        if (id != groupData.id) return false;
+        if (domainId != groupData.domainId) return false;
+        if (groupParentId != null ? !groupParentId.equals(groupData.groupParentId) : groupData.groupParentId != null)
+            return false;
+        if (name != null ? !name.equals(groupData.name) : groupData.name != null) return false;
+        if (header != null ? !header.equals(groupData.header) : groupData.header != null) return false;
+        if (footer != null ? !footer.equals(groupData.footer) : groupData.footer != null) return false;
+        if (created != null ? !created.equals(groupData.created) : groupData.created != null) return false;
+        return modified != null ? modified.equals(groupData.modified) : groupData.modified == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + domainId;
+        result = 31 * result + (groupParentId != null ? groupParentId.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (header != null ? header.hashCode() : 0);
+        result = 31 * result + (footer != null ? footer.hashCode() : 0);
+        result = 31 * result + (created != null ? created.hashCode() : 0);
+        result = 31 * result + (modified != null ? modified.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GroupData{" +
                 "id='" + id + '\'' +
@@ -75,25 +116,4 @@ public class GroupData {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        GroupData groupData = (GroupData) o;
-
-        if (id != groupData.id) return false;
-        if (name != null ? !name.equals(groupData.name) : groupData.name != null) return false;
-        if (header != null ? !header.equals(groupData.header) : groupData.header != null) return false;
-        return footer != null ? footer.equals(groupData.footer) : groupData.footer == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (header != null ? header.hashCode() : 0);
-        result = 31 * result + (footer != null ? footer.hashCode() : 0);
-        return result;
-    }
 }

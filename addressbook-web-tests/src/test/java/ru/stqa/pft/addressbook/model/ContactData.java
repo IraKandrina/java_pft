@@ -15,8 +15,12 @@ public class ContactData {
     @Id
     @Column(name = "id")
     private int id = Integer.MAX_VALUE;
+
+    @Column(name ="domain_id")
+    private int domainId;
     @Column(name = "firstname")
     private String firstName;
+
     @Column(name = "lastname")
     private String lastName;
     @Column(name = "address")
@@ -44,13 +48,27 @@ public class ContactData {
     @Column(name = "work")
     @Type(type = "text")
     private String workPhone;
+
+    @Column(name = "addr_long")
+    @Type(type = "text")
+    private String addr_long;
+
+    @Column(name = "addr_lat")
+    @Type(type = "text")
+    private String addr_lat;
+
+    @Column(name = "addr_status")
+    @Type(type = "text")
+    private String addr_status;
+
     @Transient
     private String group;
 
     @Transient
-    //@Column(name = "photo")
-    //@Type(type = "text")
+    @Column(name = "photo")
+    @Type(type = "text")
     private String photo;
+
 
     public ContactData withId(int id) {
         this.id = id;
@@ -172,6 +190,7 @@ public class ContactData {
         ContactData that = (ContactData) o;
 
         if (id != that.id) return false;
+        if (domainId != that.domainId) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (address != null ? !address.equals(that.address) : that.address != null) return false;
@@ -180,12 +199,16 @@ public class ContactData {
         if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
         if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
         if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
-        return workPhone != null ? workPhone.equals(that.workPhone) : that.workPhone == null;
+        if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
+        if (addr_long != null ? !addr_long.equals(that.addr_long) : that.addr_long != null) return false;
+        if (addr_lat != null ? !addr_lat.equals(that.addr_lat) : that.addr_lat != null) return false;
+        return addr_status != null ? addr_status.equals(that.addr_status) : that.addr_status == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + domainId;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
@@ -195,11 +218,11 @@ public class ContactData {
         result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
         result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
         result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+        result = 31 * result + (addr_long != null ? addr_long.hashCode() : 0);
+        result = 31 * result + (addr_lat != null ? addr_lat.hashCode() : 0);
+        result = 31 * result + (addr_status != null ? addr_status.hashCode() : 0);
         return result;
     }
-
-
-
 
     @Override
     public String toString() {
