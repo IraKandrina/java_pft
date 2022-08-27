@@ -10,7 +10,6 @@
     <homePhone>+7 495 312-15-77 0</homePhone>
     <mobilePhone>+7(111)111-11-11 0</mobilePhone>
     <workPhone>123-45-67 0</workPhone>
-    <group>test1 0</group>
   </contact>
   <contact>
     <firstName>Ivan 1</firstName>
@@ -23,7 +22,6 @@
     <homePhone>+7 495 312-15-77 1</homePhone>
     <mobilePhone>+7(111)111-11-11 1</mobilePhone>
     <workPhone>123-45-67 1</workPhone>
-    <group>test1 1</group>
   </contact>
   <contact>
     <firstName>Ivan 2</firstName>
@@ -36,6 +34,5 @@
     <homePhone>+7 495 312-15-77 2</homePhone>
     <mobilePhone>+7(111)111-11-11 2</mobilePhone>
     <workPhone>123-45-67 2</workPhone>
-    <group>test1 2</group>
   </contact>
 </list>

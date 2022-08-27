@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ContactHelper extends BaseHelper {
     }
 
     public void fillContactForm(ContactData contactData, boolean creation) {
+
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("lastname"), contactData.getLastName());
         attach(By.name("photo"),contactData.getPhoto());
@@ -30,16 +32,18 @@ public class ContactHelper extends BaseHelper {
         type(By.name("email2"), contactData.getEmail2());
         type(By.name("email3"), contactData.getEmail3());
 
-        if (creation) {
-            try {
-                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-            } catch (NoSuchElementException e) {
-                new Select(wd.findElement(By.name("new_group"))).selectByIndex(0);
-            }
-
-        } else {
-            Assert.assertFalse(isElementPresent(By.name("new_group")));
-        }
+        //if (creation) {
+            //if(contactData.getGroups().size() > 0) {
+               // try {
+                   // Assert.assertTrue(contactData.getGroups().size() == 1);
+                    //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+                //} catch (NoSuchElementException e) {
+                   // new Select(wd.findElement(By.name("new_group"))).selectByIndex(0);
+                //}
+            //}
+        //} else {
+            //Assert.assertFalse(isElementPresent(By.name("new_group")));
+        //}
     }
 
     public void create(ContactData contact) {
@@ -65,6 +69,39 @@ public class ContactHelper extends BaseHelper {
         contactCache = null;
     }
 
+    public void addToGroup(ContactData contact, GroupData group) {
+        selectContactById(contact.getId());
+        selectGroupFromList(contact, group);
+        clickAddBtn();
+    }
+
+    public void selectGroupFromList(ContactData contactData, GroupData group){
+
+        if(contactData.getGroups().size() > 0) {
+            try {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+            } catch (NoSuchElementException e) {
+                new Select(wd.findElement(By.name("to_group"))).selectByIndex(0);
+            }
+        }
+    }
+
+    public void clickAddBtn(){
+        click(By.name("add"));
+    }
+
+    public void goToContactGroupPage(String groupName){
+        click(By.linkText("group page " + groupName));
+    }
+
+
+    public void removeFromGroup(ContactData contact) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+        selectContactById(contact.getId());
+        initRemovingFromGroup();
+    }
+
     public void selectContactById(int id) {
         wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
     }
@@ -79,6 +116,11 @@ public class ContactHelper extends BaseHelper {
 
     public void initContactDeletion() {
         click(By.xpath("//input[@value='Delete']"));
+    }
+
+
+    public void initRemovingFromGroup(){
+        click(By.name("remove"));
     }
 
     public void deleteSelectedContact() {
@@ -154,6 +196,12 @@ public class ContactHelper extends BaseHelper {
     public void returnToHomePage() {
         click(By.linkText("home page"));
     }
+
+    public void showContactsWithoutGroup() {
+        wd.findElement(By.name("group")).click();
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText("[none]");
+    }
+
 
 
 }

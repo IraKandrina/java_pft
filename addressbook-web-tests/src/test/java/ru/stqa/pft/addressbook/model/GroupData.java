@@ -8,6 +8,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("group")
 @Entity
@@ -39,6 +41,9 @@ public class GroupData {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified")
     private java.util.Date modified;
+
+    @ManyToMany(mappedBy = "groups")
+    private Set<ContactData> contacts = new HashSet<ContactData>();
 
     public GroupData withId(int id) {
         this.id = id;
@@ -74,6 +79,10 @@ public class GroupData {
 
     public String getFooter() {
         return footer;
+    }
+
+    public Contacts getContacts() {
+        return new Contacts(contacts);
     }
 
     @Override

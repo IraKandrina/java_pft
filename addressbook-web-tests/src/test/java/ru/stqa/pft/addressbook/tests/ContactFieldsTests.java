@@ -25,8 +25,8 @@ public class ContactFieldsTests extends TestBase{
                     .withWorkPhone("123-45-67")
                     .withEmail("ivanov_ivan@mail.ru")
                     .withEmail2("ivanov_ivan@list.ru")
-                    .withEmail3("ivanov_ivan@gmail.com")
-                    .withGroup("test1");
+                    .withEmail3("ivanov_ivan@gmail.com");
+                    //.withGroup("test1");
             app.contact().create(contact);
         }
     }

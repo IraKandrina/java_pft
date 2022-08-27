@@ -70,8 +70,7 @@ ContactDataGenerator {
                         contact.getWorkPhone(),
                         contact.getEmail(),
                         contact.getEmail2(),
-                        contact.getEmail3(),
-                        contact.getGroup()));
+                        contact.getEmail3()));
             }
         }
     }
@@ -88,8 +87,7 @@ ContactDataGenerator {
                     .withWorkPhone(String.format("123-45-67 %s", i))
                     .withEmail(String.format("ivanov_ivan@mail.ru %s", i))
                     .withEmail2(String.format("ivanov_ivan@list.ru %s", i))
-                    .withEmail3(String.format("ivanov_ivan@gmail.com %s", i))
-                    .withGroup(String.format("test1 %s", i)));
+                    .withEmail3(String.format("ivanov_ivan@gmail.com %s", i)));
         }
         return contacts;
     }

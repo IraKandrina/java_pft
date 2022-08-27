@@ -3,28 +3,28 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
+import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
+import static org.hamcrest.core.IsEqual.equalTo;
 
-public class ContactDeletionTests extends TestBase {
+public class ContactDeleteFromGroup extends TestBase {
+
     @BeforeMethod
     public void ensurePreconditions(){
         Groups groups = app.db().groups();
-
-        if (app.db().groups().size() == 0) {
+        File photo = new File("src/test/resources/photo.jpg");
+        if (groups.size() == 0) {
             app.goTo().groupPage();
             app.group().create(new GroupData().withName("test0").withHeader("test0").withFooter("test0"));
             app.goTo().goToHomePage();
         }
+
         if (app.db().contacts().size() == 0) {
-            File photo = new File("src/test/resources/photo.jpg");
             ContactData contact = new ContactData()
                     .withFirstName("Ivan")
                     .withLastName("Ivanov")
@@ -39,20 +39,24 @@ public class ContactDeletionTests extends TestBase {
                     .inGroup(groups.iterator().next());
             app.contact().create(contact);
         }
+
     }
 
     @Test
-    public void testContactDeletion() {
-        Contacts before = app.db().contacts();
-        ContactData deletedContact = before.iterator().next();
-        app.contact().delete(deletedContact);
-        app.goTo().goToHomePage();
-        assertThat(app.contact().count(), equalTo(before.size() - 1));
-        Contacts after = app.db().contacts();
-        assertEquals(after.size(), before.size() - 1);
-        assertThat(after, equalTo(before.without(deletedContact)));
-        verifyContactListInUI();
-    }
+    public void deleteContactFromGroup() {
+        ContactData contact = app.db().contacts().iterator().next();
+        int id = contact.getId();
 
+        if(contact.getGroups().size() == 0){
+            GroupData newGroup = app.db().groups().iterator().next();
+            app.contact().addToGroup(contact, newGroup);
+            app.goTo().goToHomePage();
+        }
+
+        ContactData newContact = app.db().getContactById(id);
+        Groups deletedGroup = newContact.getGroups();
+        app.contact().removeFromGroup(newContact);
+        assertThat(app.db().getContactById(contact.getId()).getGroups().contains(deletedGroup), equalTo(false));
+    }
 
 }

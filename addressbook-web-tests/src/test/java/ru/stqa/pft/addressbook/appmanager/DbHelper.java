@@ -28,6 +28,12 @@ public class DbHelper {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         List<GroupData> result = session.createQuery( "from GroupData" ).list();
+
+
+        for (GroupData group : result) {
+            System.out.println(group);
+        }
+
         session.getTransaction().commit();
         session.close();
         return new Groups(result);
@@ -41,4 +47,23 @@ public class DbHelper {
         session.close();
         return new Contacts(result);
     }
+
+    public ContactData getContactById(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        ContactData result = (ContactData) session.createQuery( " from ContactData where id='" + id + "'").list().get(0);
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    //public ContactData contactById(int id) {
+    //Session session = sessionFactory.openSession();
+    //session.beginTransaction();
+    //ContactData contact = (ContactData) session
+    //.createQuery( "from ContactData where id=:id" ).setParameter("id",id).getSingleResult();
+    //session.getTransaction().commit();
+    //session.close();
+    //return contact;
+    // }
 }

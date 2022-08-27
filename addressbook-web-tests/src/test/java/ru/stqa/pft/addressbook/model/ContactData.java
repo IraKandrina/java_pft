@@ -2,10 +2,16 @@ package ru.stqa.pft.addressbook.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.Session;
+import org.hibernate.SessionBuilder;
+import org.hibernate.SessionFactory;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -20,7 +26,6 @@ public class ContactData {
     private int domainId;
     @Column(name = "firstname")
     private String firstName;
-
     @Column(name = "lastname")
     private String lastName;
     @Column(name = "address")
@@ -62,13 +67,14 @@ public class ContactData {
     private String addr_status;
 
     @Transient
-    private String group;
-
-    @Transient
     @Column(name = "photo")
     @Type(type = "text")
     private String photo;
 
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
 
     public ContactData withId(int id) {
         this.id = id;
@@ -130,11 +136,6 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
-
     public ContactData withPhoto(File photo) {
         this.photo = photo.getPath();
         return this;
@@ -178,8 +179,8 @@ public class ContactData {
 
     public String getWorkPhone() { return workPhone;}
 
-    public String getGroup() {
-        return group;
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     @Override
@@ -234,4 +235,8 @@ public class ContactData {
     }
 
 
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
+    }
 }
