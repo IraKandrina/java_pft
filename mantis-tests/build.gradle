@@ -8,16 +8,27 @@ dependencies {
     implementation 'org.testng:testng:7.6.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.3.0'
     implementation 'org.hamcrest:hamcrest:2.2'
+    implementation 'org.hibernate:hibernate-core:5.6.8.Final'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
     implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0'
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'commons-net:commons-net:3.8.0'
+    implementation 'org.subethamail:subethasmtp:3.1.7'
+    implementation 'ru.lanwen.verbalregex:java-verbal-expressions:1.8'
+    implementation 'com.hynnet:logback-classic:1.1.5'
+    implementation 'mysql:mysql-connector-java:8.0.29'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'javax.mail:mail:1.5.0-b01'
+    implementation 'javax.mail:mailapi:1.4.3'
+    //
 }
 
 test {
-    useTestNG {
-        suites 'src/test/resources/testng-groups.xml'
-    }
+    //useTestNG {
+       // suites 'src/test/resources/testng.xml'
+    //}
 
     if (project.hasProperty('browser')) {
         systemProperty 'browser', "${browser}"

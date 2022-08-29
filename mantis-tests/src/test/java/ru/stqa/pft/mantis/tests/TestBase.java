@@ -5,6 +5,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.mantis.appmanager.ApplicationManager;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TestBase {
@@ -12,10 +13,15 @@ public class TestBase {
     protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
 
     @BeforeSuite
-    public void setUp() throws IOException { app.init();}
+    public void setUp() throws IOException {
+        app.init();
+        //app.ftp().upload(new File("src/test/resources/config_inc.php"), "config_inc.php", "config_inc.php.bak");
+       // app.ftp().upload(new File("C:/xampp/htdocs/mantisbt-1.3.20/config/config_inc.php"),"config_inc.php", "config_inc.php.bak");
+    }
 
     @AfterSuite (alwaysRun = true)
-    public void tearDown() {
+    public void tearDown() throws IOException {
+       // app.ftp().restore("config_inc.php.bak", "config_inc.php");
         app.stop();
     }
 
