@@ -12,10 +12,12 @@ public class NavigationHelper extends HelperBase {
         wd.get(app.getProperty("web.baseUrl") + "login_page.php");
     }
 
-    public void goToPage() {
-        click(By.xpath("//a[@href='/mantisbt-1.3.20/manage_overview_page.php']"));
-        click(By.xpath("//a[@href='/mantisbt-1.3.20/manage_user_page.php']"));
+    public void userPage(){
+        wd.get(app.getProperty("web.baseUrl") + "manage_user_page.php");
+    }
 
+    public void overviewPage(){
+        wd.get(app.getProperty("web.baseUrl") + "manage_overview_page.php");
     }
 
     public void manageUsersLink() {

@@ -31,7 +31,8 @@ public class ChangePasswordTests extends TestBase {
         String newPassword = "updatedPassword";
 
         app.registration().login((String) app.getProperty("web.adminLogin"), (String) app.getProperty("web.adminPassword"));
-        app.goTo().goToPage();
+        app.goTo().overviewPage();
+        app.goTo().userPage();
         app.user().selectUser(id);
         app.user().resetPassword();
 
